@@ -190,7 +190,7 @@ int main()
 		XUartPs_SetOptions(&Uart_PS, XUARTPS_OPTION_RESET_RX);
 		iPollBufferIndex = 0;
 
-		xil_printf("\r\n Devkit version 2.50 \r\n");
+		xil_printf("\r\n Devkit version 2.51 \r\n");
 		xil_printf("BOOT MENU \r\n");
 		xil_printf("*****\n\r");
 		xil_printf(" 0) Set Mode of Operation\n\r");
@@ -1060,7 +1060,10 @@ int main()
 			Status = IicPsMasterRecieve(IIC_DEVICE_ID_1, i2c_Recv_Buffer, IIC_SLAVE_ADDR);
 			a = i2c_Recv_Buffer[0]<< 5;
 			b = a | i2c_Recv_Buffer[1] >> 3;
-			b /= 16;
+			if(i2c_Recv_Buffer[0] >= 128)
+				b = (b - 8192) / 16;
+			else
+				b = b / 16;
 			xil_printf("%d\xf8\x43\n\r", b); //take integer, which is in degrees C \xf8 = degree symbol, \x43 = C
 			sleep(1); //built in latency
 			break;
@@ -1073,7 +1076,10 @@ int main()
 			Status = IicPsMasterRecieve(IIC_DEVICE_ID_0, i2c_Recv_Buffer, IIC_SLAVE_ADDR);
 			a = i2c_Recv_Buffer[0]<< 5;
 			b = a | i2c_Recv_Buffer[1] >> 3;
-			b /= 16;
+			if(i2c_Recv_Buffer[0] >= 128)
+				b = (b - 8192) / 16;
+			else
+				b = b / 16;
 			xil_printf("%d\xf8\x43\n\r", b);
 			sleep(1); //built in latency
 			break;
@@ -1086,7 +1092,10 @@ int main()
 			Status = IicPsMasterRecieve(IIC_DEVICE_ID_0, i2c_Recv_Buffer, IIC_SLAVE_ADDR);
 			a = i2c_Recv_Buffer[0]<< 5;
 			b = a | i2c_Recv_Buffer[1] >> 3;
-			b /= 16;
+			if(i2c_Recv_Buffer[0] >= 128)
+				b = (b - 8192) / 16;
+			else
+				b = b / 16;
 			xil_printf("%d\xf8\x43\n\r", b);
 			sleep(1); //built in latency
 			break;
